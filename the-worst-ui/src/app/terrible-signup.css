@@ -1,0 +1,137 @@
+.terrible-ui {
+  min-height: 100vh;
+  background: linear-gradient(to right, #9333ea, #ec4899, #ef4444);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.signup-form {
+  max-width: 28rem;
+  margin: 0 auto;
+  background-color: #fde047;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-size: 2.25rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-family: 'Comic Sans MS', cursive;
+  color: #7e22ce;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.label {
+  display: block;
+  font-size: 1.125rem;
+  font-weight: bold;
+  color: #7e22ce;
+  margin-bottom: 0.5rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.25rem;
+}
+
+.invisible-input {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.invisible-input:hover {
+  opacity: 1;
+}
+
+.black-on-black {
+  background-color: black;
+  color: black;
+}
+
+.wingdings {
+  font-family: 'Wingdings', sans-serif;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+.submit-button {
+  background-color: #ef4444;
+  color: white;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+  background-color: #22c55e;
+}
+
+.toggle-scroll {
+  margin-top: 1rem;
+  background-color: #3b82f6;
+  color: white;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.toggle-scroll:hover {
+  background-color: #1d4ed8;
+}
+
+.background-animations {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 50;
+}
+
+.animation-circle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.5;
+  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes ping {
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
