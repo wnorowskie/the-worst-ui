@@ -1,17 +1,18 @@
+// src/app/terrible-login/page.js
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import './terrible-signup.css'
+import { useRouter } from 'next/navigation'
+import '../terrible-signup.css'
 
-export default function TerribleSignup() {
+export default function TerribleLogin() {
   const [formData, setFormData] = useState({
     username: '',
     password: '',
-    email: '',
-    captcha: '',
   })
   const [submitPosition, setSubmitPosition] = useState({ x: 0, y: 0 })
   const [scrollDirection, setScrollDirection] = useState(1)
+  const router = useRouter()
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -37,16 +38,32 @@ export default function TerribleSignup() {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
-  const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
     e.preventDefault()
-    alert('You thought you could sign up? Think again!')
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: formData.username,
+        password: formData.password,
+      }),
+    })
+    const data = await res.json()
+    if (res.ok) {
+      alert(data.message)
+      router.push('/success')
+    } else {
+      alert(data.error)
+    }
   }
 
   return (
     <div className="terrible-ui">
       <div className="container">
         <form onSubmit={handleSubmit} className="signup-form">
-          <h1 className="title">Sign Up for Eternal Frustration</h1>
+          <h1 className="title">Log In for Eternal Frustration</h1>
 
           <div className="form-group">
             <label htmlFor="username" className="label">Username (good luck finding it)</label>
@@ -76,42 +93,6 @@ export default function TerribleSignup() {
             />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="email" className="label">Email Address</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              className="input wingdings"
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="captcha" className="label">
-              CAPTCHA (solve quantum mechanics equation)
-            </label>
-            <input
-              type="text"
-              id="captcha"
-              name="captcha"
-              value={formData.captcha}
-              onChange={handleInputChange}
-              className="input"
-              placeholder="∫∞-∞ ψ*(x) (-ℏ²/2m) ∇² ψ(x) dx"
-              required
-            />
-          </div>
-
-          <div className="form-group checkbox-group">
-            <input type="checkbox" id="terms" className="checkbox" required />
-            <label htmlFor="terms" className="label">
-              I agree to the incomprehensible terms and conditions
-            </label>
-          </div>
-
           <button
             type="submit"
             style={{
@@ -121,6 +102,7 @@ export default function TerribleSignup() {
               transition: 'all 0.5s ease',
             }}
             className="submit-button"
+            onClick={() => handleSubmit }
           >
             Try to click me!
           </button>
@@ -130,6 +112,13 @@ export default function TerribleSignup() {
             className="toggle-scroll"
           >
             Toggle Scroll Direction
+          </button>
+
+          <button
+            onClick={() => router.push('/terrible-signup')}
+            className="link-button"
+          >
+            Go to Sign Up
           </button>
 
           <div className="background-animations">
