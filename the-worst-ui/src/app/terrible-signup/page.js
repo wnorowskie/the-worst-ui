@@ -1,9 +1,8 @@
-// src/app/terrible-signup/page.js
-'use client'
+'use client';
 
-import React, { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import '../terrible-signup.css'
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import '../terrible-signup.css';
 
 export default function TerribleSignup() {
   const [formData, setFormData] = useState({
@@ -11,38 +10,40 @@ export default function TerribleSignup() {
     password: '',
     email: '',
     captcha: '',
-  })
-  const [submitPosition, setSubmitPosition] = useState({ x: 0, y: 0 })
-  const [scrollDirection, setScrollDirection] = useState(1)
-  const router = useRouter()
+  });
+  const [submitPosition, setSubmitPosition] = useState({ x: 0, y: 0 });
+  const [scrollDirection, setScrollDirection] = useState(1);
+  const router = useRouter();
 
   useEffect(() => {
     const interval = setInterval(() => {
       setSubmitPosition({
         x: Math.random() * 300 - 150,
         y: Math.random() * 300 - 150,
-      })
-    }, 2000)
+      });
+    }, 2000);
 
-    return () => clearInterval(interval)
-  }, [])
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const handleScroll = (e) => {
-      e.preventDefault()
-      window.scrollBy(0, -e.deltaY * scrollDirection)
-    }
-    window.addEventListener('wheel', handleScroll, { passive: false })
-    return () => window.removeEventListener('wheel', handleScroll)
-  }, [scrollDirection])
+      e.preventDefault();
+      window.scrollBy(0, -e.deltaY * scrollDirection);
+    };
+    window.addEventListener('wheel', handleScroll, { passive: false });
+    return () => window.removeEventListener('wheel', handleScroll);
+  }, [scrollDirection]);
 
   const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    const res = await fetch('/api/signup', {
+  e.preventDefault();
+
+  try {
+    const res = await fetch('http://localhost:3001/api/login', { // Update to your local API URL
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -50,17 +51,23 @@ export default function TerribleSignup() {
       body: JSON.stringify({
         username: formData.username,
         password: formData.password,
-        email: formData.email,
       }),
-    })
-    const data = await res.json()
+    });
+
+    const data = await res.json();
+
     if (res.ok) {
-      alert(data.message)
-      router.push('/terrible-login')
+      alert(data.message); // Success message from the API
+      router.push('/terrible-login');
     } else {
-      alert(data.error)
+      alert(data.message || 'An error occurred. Please try again.');
     }
+  } catch (error) {
+    console.error('Error during signup:', error);
+    alert('An unexpected error occurred. Please try again later.');
   }
+};
+
 
   return (
     <div className="terrible-ui">
@@ -69,29 +76,27 @@ export default function TerribleSignup() {
           <h1 className="title">Sign Up for Eternal Frustration</h1>
 
           <div className="form-group">
-            <label htmlFor="username" className="label">Username (good luck finding it)</label>
+            <label htmlFor="username" className="label">Username</label>
             <input
               type="text"
               id="username"
               name="username"
               value={formData.username}
               onChange={handleInputChange}
-              className="input invisible-input"
+              className="input"
               required
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="password" className="label">
-              Password (must contain a prime number, a mythical creature, and your grandmother's maiden name)
-            </label>
+            <label htmlFor="password" className="label">Password</label>
             <input
               type="password"
               id="password"
               name="password"
               value={formData.password}
               onChange={handleInputChange}
-              className="input black-on-black"
+              className="input"
               required
             />
           </div>
@@ -147,7 +152,7 @@ export default function TerribleSignup() {
           </button>
 
           <button
-            onClick={() => setScrollDirection(prev => prev * -1)}
+            onClick={() => setScrollDirection((prev) => prev * -1)}
             className="toggle-scroll"
           >
             Toggle Scroll Direction
@@ -179,5 +184,5 @@ export default function TerribleSignup() {
         </form>
       </div>
     </div>
-  )
+  );
 }
